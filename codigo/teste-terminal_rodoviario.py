@@ -59,15 +59,21 @@ if adm==1:
                             print("MySQL finalizado")
 elif adm==2:
     try:
-        Placa=input()
-        chassi=input()
+        print("Qual a placa do veículos")
+        placa=input()
+        print('Qual o destino do veículo')
+        destino=input()
+        print('Quantos assentos comerciais ele possuí?')
         assentos_comerciais=input()
+        print('Quantos assentos executivos ele possuí?')
         assentos_executivos=input()
+        print('CNPJ da empresa proprietária')
+        cnpj=input()
 
         cursor = connection.cursor()
-        insert = "INSERT INTO Empresa (Placa,chassi,assentos_comerciais,assentos_executivos) VALUES (%s, %s, %s, %s)"
-        gravar = (Placa,chassi,assentos_comerciais,assentos_executivos)
-        cursor.execute(insert,gravar)
+        insertonib = "INSERT INTO Onibus (Placa,destino,assentos_comerciais,assentos_executivos,Empresa_CNPJ) VALUES (%s, %s, %s, %s,%s)"
+        gravar = (placa,destino,assentos_comerciais,assentos_executivos,cnpj)
+        cursor.execute(insertonib,gravar)
         connection.commit()
         print("Inserção bem executada")
 
