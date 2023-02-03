@@ -12,7 +12,10 @@ while True:
     if adm == 1:
         try:
             while True:
-                reg1 = input('Sistema admnistrativo de empresas\n1-Registrar empresa\n2-Alterar registro\n3-Sair\n')
+                print('Carregando...')
+                import time
+                time.sleep(1)
+                reg1 = input('Sistema admnistrativo de empresas\n1-Registrar empresa\n2-Alterar registro\n3-Voltar\n')
                 # registrar empresa
                 if reg1 == '1':
                     print('Sequencia de Registro:CNPJ,nome,telefone,veiculos,rua,bairro,cidade,estado')
@@ -58,7 +61,7 @@ while True:
                 print('Carregando...')
                 import time
                 time.sleep(1)
-                regon1=int(input('Sistema admnistrativo de ônibus\n1-Registrar Veículo\n2-Alterar registro do veículo\n3-Sair\n'))
+                regon1=int(input('Sistema admnistrativo de ônibus\n1-Registrar Veículo\n2-Alterar registro do veículo\n3-Voltar\n'))
                 #registro de onibus
                 if regon1==1:
                     print("Qual a placa do veículos")
