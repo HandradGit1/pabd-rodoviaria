@@ -43,9 +43,8 @@ while True:
                     cursor.execute(mySql_insert_query)
                     connection.commit()
                 elif reg1 == '3':
-                    False
                     break
-                
+
         except mysql.connection.Error as error:
             print("Falha ao registrar empresa{}".format(error))
 
