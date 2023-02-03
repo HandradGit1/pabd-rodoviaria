@@ -79,7 +79,7 @@ while True:
         print("Pesquisar viagem por:\n1-Data\n2-empresa de ônibus\n3-Cidade de origem\n4-Cidade de destino")
         pesquisa = int(input())
         if pesquisa==1:
-            data=input("Insira a data")
+            data=input("Insira a data\n")
             pesquisadata = f"SELECT Viagem.ID_viagem, Viagem.origem, Viagem.destino, Viagem.hora_chegada, Viagem.hora_saida, bilhete.data_viagem FROM Viagem JOIN bilhete_pertence_viagem ON bilhete_pertence_viagem.Viagem_ID_viagem = Viagem.ID_viagem JOIN bilhete ON bilhete_pertence_viagem.bilhete_ID = bilhete.ID WHERE bilhete.data_viagem='{data}';"
         cursor.execute(pesquisadata)
         lista = cursor.fetchall()

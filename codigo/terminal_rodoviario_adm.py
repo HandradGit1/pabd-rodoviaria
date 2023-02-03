@@ -46,7 +46,7 @@ while True:
                     break
 
         except mysql.connection.Error as error:
-            print("Falha ao registrar empresa{}".format(error))
+            print("Falha ao alterar banco de dados{}".format(error))
 
             if connection.is_connected():
                 cursor.close()
@@ -101,7 +101,8 @@ while True:
 
 
             except mysql.connection.Error as error:
-                                print("Falha ao registrar empresa{}".format(error))
+                print("Falha ao alterar banco de dados{}".format(error))
+    #menu viagens
     elif adm == 3:
         try:
             while True:
@@ -126,19 +127,32 @@ while True:
                     print('Alteração de registro de viagem')
                     update1 = input('O que alterar?\n')
                     update2 = input('Valor ao ser alterado\n')
-                    update3 = input('CNPJ da empresa\n')
-                    mySql_insert_query = f"UPDATE Viagem SET {update1} = '{update2}' WHERE CNPJ={update3}"
-                    cursor.execute(mySql_insert_query)
-                    connection.commit()
+                    update3 = input('ID da viagem\n')
+                    if update1=="horário de saída":
+                        updateviag = f"UPDATE Viagem SET hora_saida = '{update2}' WHERE ID_viagem={update3}"
+                        cursor.execute(updateviag)
+                        connection.commit()
+                    elif update1=="horário de chegada":
+                        updateviag = f"UPDATE Viagem SET hora_chegada = '{update2}' WHERE ID_viagem={update3}"
+                        cursor.execute(updateviag)
+                        connection.commit()
+                    else:
+                        updateviag = f"UPDATE Viagem SET {update1} = '{update2}' WHERE ID_viagem={update3}"
+                        cursor.execute(updateviag)
+                        connection.commit()
+                    print("Viagem alterada com sucesso")
                 elif reg1 == '3':
                     False
                     break
         except mysql.connection.Error as error:
-            print("Falha ao registrar empresa{}".format(error))
+            print("Falha ao alterar banco de dados{}".format(error))
             if connection.is_connected():
                 cursor.close()
                 connection.close()
                 print("MySQL finalizado")
+    #Menu relatorio
+    if adm == 4:
+        print("Função temporariamente indisponivel, tente novamente mais tarde")
     
     if adm == 5:
         if connection.is_connected():
