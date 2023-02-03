@@ -5,7 +5,7 @@ connection = mysql.connect(host="127.0.0.1",database='Terminal_Rodoviario',user 
 cursor = connection.cursor()
 
 def menu1():
-    return('Bem-Vindo\n1-Usário\n2-Bilhetes\n3-Listar Viagens\n4-Pesquisar Viagem')
+    return('Bem-Vindo\n1-Usário\n2-Bilhetes\n3-Listar Viagens\n4-Pesquisar Viagem\n5-log out')
 
 while True:
     print(menu1())
@@ -72,7 +72,7 @@ while True:
             time_column2 = x[4]
             time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
             time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
-            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:5],"e parando em:", chegada,"as:", time_string2[:5])
+            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:8],"e parando em:", chegada,"as:", time_string2[:8])
 
 
     if user==4:
@@ -92,9 +92,11 @@ while True:
             time_column2 = x[4]
             time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
             time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
-            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:5],"e parando em:", chegada,"as:", time_string2[:5])
+            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:8],"e parando em:", chegada,"as:", time_string2[:8])
             
+    elif user==5:
         if connection.is_connected():
                 cursor.close()
                 connection.close()
-                print("MySQL finalizado")
+                print("Finalizando conexão")
+                sys.exit()

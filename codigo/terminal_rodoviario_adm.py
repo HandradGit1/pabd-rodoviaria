@@ -158,5 +158,5 @@ while True:
         if connection.is_connected():
             cursor.close()
             connection.close()
-            print("MySQL finalizado")
+            print("Finalizando conexão")
             sys.exit()
