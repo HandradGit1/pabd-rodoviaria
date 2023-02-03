@@ -82,7 +82,7 @@ alguma dica que vale a pena
 * Pedro Henrique de Brito Gomes
     * [@](https://github.com/USUARIO)
 * Rafael da Silva dos Santos
-    * [@](https://github.com/USUARIO)
+    * [@RasiSan]https://github.com/RasiSan
 * Maria Gabriela Rocha de Oliveira
     * [@](https://github.com/USUARIO)
 
