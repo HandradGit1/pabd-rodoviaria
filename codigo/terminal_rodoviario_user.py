@@ -80,9 +80,10 @@ while True:
         pesquisa = int(input())
         if pesquisa==1:
             data=input("Insira a data")
-            pesquisadata = f"SELECT Viagem.ID_viagem, Viagem.origem, Viagem.destino, Viagem.hora_chegada, Viagem.hora_saida, bilhete.data_viagem FROM Viagem JOIN bilhete ON Viagem.ID_viagem = bilhete.ID_viagem WHERE bilhete.data_viagem='{data}';'"
-            cursor.execute(pesquisadata)
-            lista = cursor.fetchall()
+            pesquisadata = f"SELECT Viagem.ID_viagem, Viagem.origem, Viagem.destino, Viagem.hora_chegada, Viagem.hora_saida, bilhete.data_viagem FROM Viagem JOIN bilhete_pertence_viagem ON bilhete_pertence_viagem.Viagem_ID_viagem = Viagem.ID_viagem JOIN bilhete ON bilhete_pertence_viagem.bilhete_ID = bilhete.ID WHERE bilhete.data_viagem='{data}';"
+        cursor.execute(pesquisadata)
+        lista = cursor.fetchall()
+
         for x in lista:
             id_viagem = x[0]
             saida = x[1]
