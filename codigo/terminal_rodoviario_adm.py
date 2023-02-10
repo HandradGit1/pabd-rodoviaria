@@ -1,11 +1,12 @@
 import mysql.connector as mysql
 import sys
 import time
+import datetime
 connection = mysql.connect(host="127.0.0.1",database='Terminal_Rodoviario',user = "root",passwd= "labinfo26")
 cursor = connection.cursor()
 
 def menu1():
-    return('Menu de admnistração\n1-Admnistrar Empresas\n2-Admnistrar Ônibus\n3-Admnistrar Viagens\n5-Finalizar sessão')
+    return('Menu de admnistração\n1-Admnistrar Empresas\n2-Admnistrar Ônibus\n3-Admnistrar Viagens\n4-Relatórios\n5-Finalizar sessão')
 
 while True:
     print(menu1())
@@ -18,17 +19,16 @@ while True:
                 reg1 = input('Sistema admnistrativo de empresas\n1-Registrar empresa\n2-Alterar registro\n3-Voltar\n')
                 # registrar empresa
                 if reg1 == '1':
-                    print('Sequencia de Registro:CNPJ,nome,telefone,veiculos,rua,bairro,cidade,estado')
+                    print('Sequencia de Registro:CNPJ,nome,telefone,rua,bairro,cidade,estado')
                     cnpj = input()
                     nomeempr = input()
                     telefoneempr = input()
-                    veiculosempr = input()
                     ruaempr = input()
                     bairroempr = input()
                     cidadeempr = input()
                     estadoempr = input()
-                    mySql_insert_query = "INSERT INTO Empresa (CNPJ,nome,telefone,veiculos,rua,bairro,cidade,estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-                    cursor.execute(mySql_insert_query, (cnpj,nomeempr,telefoneempr,veiculosempr,ruaempr,bairroempr,cidadeempr,estadoempr))
+                    mySql_insert_query = "INSERT INTO Empresa (CNPJ,nome,telefone,rua,bairro,cidade,estado) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                    cursor.execute(mySql_insert_query, (cnpj,nomeempr,telefoneempr,ruaempr,bairroempr,cidadeempr,estadoempr))
                     connection.commit()
                     print("Registro de empresa completo")
                 elif reg1 == '2':
@@ -43,6 +43,7 @@ while True:
                     cursor.execute(mySql_insert_query)
                     connection.commit()
                 elif reg1 == '3':
+                    False
                     break
 
         except mysql.connection.Error as error:
@@ -152,7 +153,56 @@ while True:
                 print("MySQL finalizado")
     #Menu relatorio
     if adm == 4:
-        print("Função temporariamente indisponivel, tente novamente mais tarde")
+    
+
+    # Função para listar as viagens que irão ocorrer
+        def listar_viagens_por_ocorrer():
+            mycursor = connection.cursor()
+            sql = "SELECT * FROM viagem WHERE hora_saida > NOW()"
+            mycursor.execute(sql)
+            result = mycursor.fetchall()
+            print("Lista de viagens a ocorrer:")
+            for x in result:
+                id_viagem = x[0]
+                saida = x[1]
+                chegada = x[2]
+                time_column1 = x[3]
+                time_column2 = x[4]
+                time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
+                time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
+                print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:8],"e parando em:", chegada,"as:", time_string2[:8])
+    # Função para listar as viagens que já ocorreram
+        def listar_viagens_ocorridas():
+            mycursor = connection.cursor()
+            sql = "SELECT * FROM viagem WHERE hora_saida < NOW()"
+            mycursor.execute(sql)
+            result = mycursor.fetchall()
+            print("Lista de viagens que já ocorreram:")
+            for x in result:
+                id_viagem = x[0]
+                saida = x[1]
+                chegada = x[2]
+                time_column1 = x[3]
+                time_column2 = x[4]
+                time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
+                time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
+                print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:8],"e parando em:", chegada,"as:", time_string2[:8])
+    # Loop do menu (levemente problemática, repete em toda saida de menu)
+    while True:
+        print("Relatório")
+        print("1- Lista de viagens a ocorrer")
+        print("2- Lista de viagens que já ocorreram")
+        print("3- Voltar")
+        option = int(input("Escolha uma opção: "))
+
+        if option == 1:
+            listar_viagens_por_ocorrer()
+        elif option == 2:
+            listar_viagens_ocorridas()
+        elif option == 3:
+            break
+        else:
+            print("Opção inválida.")
     
     if adm == 5:
         if connection.is_connected():

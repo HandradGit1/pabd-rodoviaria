@@ -53,13 +53,28 @@ while True:
                         cursor.execute(mySql_insert_query)
                         connection.commit()
                 elif reg1 == '3':
-                    False
                     break
             
         except mysql.connection.Error as error:
             print("Falha ao registrar usuário{}".format(error))
     if user==2:
-            print('Sessão ainda em construção, tente novamente mais tarde')
+            bilh = int(input("1-Gerar bilhete\n2-Alterar data do bilhete\n3-Voltar\n"))
+            if bilh == 1:
+                print('Data da viagem')
+                dataviag = input()
+                insert_bilh ="INSERT INTO Bilhete (preço,data_viagem) VALUES (80.00, %s )"
+                cursor.execute(insert_bilh, (dataviag,))
+                connection.commit()
+                print("Registro de Bilhete completo")
+            if bilh == 2:
+                print("Alterar data")
+                databilh = input()
+                print("Qual o ID do bilhete?")
+                update_bilh2 = input()
+                update_bilh = f"UPDATE bilhete SET data_viagem = '{databilh}' WHERE ID = {update_bilh2}"
+                cursor.execute(update_bilh)
+                connection.commit()
+
     if user==3:
         listar_viagens = "SELECT * FROM Viagem"
         cursor.execute(listar_viagens)
@@ -72,28 +87,81 @@ while True:
             time_column2 = x[4]
             time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
             time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
-            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:8],"e parando em:", chegada,"as:", time_string2[:8])
+            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string2[:8],"e parando em:", chegada,"as:", time_string1[:8])
 
 
     if user==4:
-        print("Pesquisar viagem por:\n1-Data\n2-empresa de ônibus\n3-Cidade de origem\n4-Cidade de destino")
-        pesquisa = int(input())
-        if pesquisa==1:
-            data=input("Insira a data\n")
-            pesquisadata = f"SELECT Viagem.ID_viagem, Viagem.origem, Viagem.destino, Viagem.hora_chegada, Viagem.hora_saida, bilhete.data_viagem FROM Viagem JOIN bilhete_pertence_viagem ON bilhete_pertence_viagem.Viagem_ID_viagem = Viagem.ID_viagem JOIN bilhete ON bilhete_pertence_viagem.bilhete_ID = bilhete.ID WHERE bilhete.data_viagem='{data}';"
-        cursor.execute(pesquisadata)
-        lista = cursor.fetchall()
+        pesquisa= int(input ("Pesquisar viagem por:\n1-ID\n2-Cidade de origem\n3-Cidade de destino\n"))
+        def pesquisar_viagem():
+                        id_viagem = input("Informe o ID da viagem: ")
+                        mycursor = connection.cursor()
+                        sql = "SELECT * FROM viagem WHERE ID_viagem = %s"
+                        val = (id_viagem,)
+                        mycursor.execute(sql, val)
+                        result = mycursor.fetchall()
+                        
+                        try:
+                            for x in result:
+                                id_viagem = x[0]
+                                saida = x[1]
+                                chegada = x[2]
+                                time_column1 = x[3]
+                                time_column2 = x[4]
+                                time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
+                                time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
+                                print("Viagem encontrada: ID:",id_viagem, "saindo de:", saida,"as", time_string2[:8],"e parando em:", chegada,"as:", time_string1[:8])
+                        except:
+                            print("Viagem não encontrada.")
+        def pesquisar_viagens_por_cidade_origem():
+                cidade_origem = input("Informe a cidade de origem: ")
+                mycursor = connection.cursor()
+                sql = "SELECT * FROM viagem WHERE origem = %s"
+                val = (cidade_origem,)
+                mycursor.execute(sql, val)
+                result = mycursor.fetchall()
+                try :
+                    for x in result:
+                                    id_viagem = x[0]
+                                    saida = x[1]
+                                    chegada = x[2]
+                                    time_column1 = x[3]
+                                    time_column2 = x[4]
+                                    time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
+                                    time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
+                                    print("Viagem encontrada: ID:",id_viagem, "saindo de:", saida,"as", time_string2[:8],"e parando em:", chegada,"as:", time_string1[:8])
+                except:
+                    print("Nenhuma viagem encontrada para a esta cidade")
 
-        for x in lista:
-            id_viagem = x[0]
-            saida = x[1]
-            chegada = x[2]
-            time_column1 = x[3]
-            time_column2 = x[4]
-            time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
-            time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
-            print("ID da viagem:", id_viagem, "saindo de:", saida,"as", time_string1[:8],"e parando em:", chegada,"as:", time_string2[:8])
-            
+
+        def pesquisar_viagens_por_cidade_destino():
+                cidade_destino = input("Informe a cidade de destino: ")
+                mycursor = connection.cursor()
+                sql = "SELECT * FROM viagem WHERE destino = %s"
+                val = (cidade_destino,)
+                mycursor.execute(sql, val)
+                result = mycursor.fetchall()
+                try :
+                    for x in result:
+                                    id_viagem = x[0]
+                                    saida = x[1]
+                                    chegada = x[2]
+                                    time_column1 = x[3]
+                                    time_column2 = x[4]
+                                    time_string1 = str(datetime.timedelta(seconds=time_column1.total_seconds()))
+                                    time_string2 = str(datetime.timedelta(seconds=time_column2.total_seconds()))
+                                    print("Viagem encontrada: ID:",id_viagem, "saindo de:", saida,"as", time_string2[:8],"e parando em:", chegada,"as:", time_string1[:8])
+                except:
+                    print("Nenhuma viagem encontrada para a esta cidade")
+        if pesquisa==1:
+            pesquisar_viagem()
+        if pesquisa== 2:
+            pesquisar_viagens_por_cidade_origem()
+        if pesquisa==3:
+            pesquisar_viagens_por_cidade_destino()
+        elif pesquisa==4:
+                False
+                
+                
     elif user==5:
         if connection.is_connected():
                 cursor.close()
